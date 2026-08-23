@@ -1,0 +1,8 @@
+flowchart TD
+    A["XML &lt;ARCHIVE TYPE=&quot;GEMSTONE&quot;&gt;"] --"walk tree"--> B["text of &lt;RADIO&gt; node"]
+    B --"base64 decode"--> C["encrypted blob"]
+    C --"AES CBC"--> D["padded blob"]
+    D --"PKCS7 (128bit block)"--> E["compressed blob"]
+    E --"zlib (windowsize=32kb, gzip header)"--> F["UTF-8 with BOM"]
+    F --> G1["XML &lt;LTD_CODEPLUG&gt;"]
+    F --> G2["XML &lt;SIGNATURE&gt; (UTF-16, PKCS1v15, SHA1, RSA)"]
