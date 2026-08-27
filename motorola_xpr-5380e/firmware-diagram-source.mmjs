@@ -16,12 +16,14 @@ flowchart TD
     B --> C14["RAMDLOADER node"]
     B --> C15["..."]
 
+    %% FIRMWARE
     C1 --"base64 decode"--> D1["encrypted blob"]
     D1 --"AES CBC"--> E1["compressed blob"]
     E1 --"remove BOM and zcat"--> F1["xml"]
     F1 --"root-&gt;Partition-&gt;Payload node, Type=FTL"--> G1["hex"]
     G1 --"hex to binary"--> H1["cpio?"]
 
+    %% APP_UTILITIES
     C2 --"base64 decode"--> D2["encrypted blob"]
     D2 --"AES CBC"--> E2["compressed blob"]
     E2 --"remove BOM and zcat"--> F2["xml"]
@@ -29,6 +31,7 @@ flowchart TD
     G2 --"hex to binary"--> H2["Tuxera Reliance filesystem"]
     H2 --"?"--> I2["shell scripts and ELF binaries"]
 
+    %% CONTROL_HEAD
     C3 --"base64 decode"--> D3["encrypted blob"]
     D3 --"AES CBC"--> E3["compressed blob"]
     E3 --"remove BOM and zcat"--> F3["xml"]
@@ -36,6 +39,21 @@ flowchart TD
     G3 --"hex to binary"--> H3["Paradise_CH_Non_Color_Display.hex, intel hex object"]
     H3 --"?"--> I3["baremetal binary?"]
 
+    %% FILE_CHANGE_LIST
+    C4 --"base64 decode"--> D4["encrypted blob"]
+    D4 --"AES CBC"--> E4["compressed blob"]
+    E4 --"remove BOM and zcat"--> F4["xml"]
+    F4 --"root-&gt;Partition-&gt;Payload node, TYPE=FileSystem"--> G4["hex"]
+    G4 --"hex to binary"--> H4["/opt/pcr/rel/data/upgrade/file_change.txt"]
+
+    %% GLOBAL_MARKER
+    C5 --"base64 decode"--> D5["encrypted blob"]
+    D5 --"AES CBC"--> E5["compressed blob"]
+    E5 --"remove BOM and zcat"--> F5["xml"]
+    F5 --"root-&gt;Partition-&gt;Payload node, Type=FTL"--> G5["hex"]
+    G5 --"hex to binary"--> H5["?"]
+
+    %% DATA_IMAGE
     C6 --"base64 decode FTL Color"--> D6A["encrypted blob"]
     C6 --"base64 decode Filesystem Color"--> D6B["encrypted blob"]
     C6 --"base64 decode FTL Numeric"--> D6C["encrypted blob"]
@@ -45,24 +63,56 @@ flowchart TD
     F6D --"root-&gt;Partition-&gt;Payload node, TYPE=FileSystem"--> G6D["hex"]
     G6D --"hex to binary"--> H6D["NL5500_BIST_ai2_patch128.ce, baremetal binary?"]
 
+    %% L2_BOOTLOADER
     C7 --"base64 decode"--> D7["encrypted blob"]
     D7 --"AES CBC"--> E7["compressed blob"]
     E7 --"remove BOM and zcat"--> F7["xml"]
     F7 --"root-&gt;Partition-&gt;Payload node, TYPE=RawNAND"--> G7["hex"]
     G7 --"hex to binary"--> H7["TI AIS boot binary"]
 
+    %% L3_BOOTLOADER
+    C8 --"base64 decode"--> D8["encrypted blob"]
+    D8 --"AES CBC"--> E8["compressed blob"]
+    E8 --"remove BOM and zcat"--> F8["xml"]
+    F8 --"root-&gt;Partition-&gt;Payload node, Type=FTL"--> G8["hex"]
+    G8 --"hex to binary"--> H8["FlashZap"]
+
+    %% CONFIGURATION
+    C9 --"base64 decode"--> D9["encrypted blob"]
+    D9 --"AES CBC"--> E9["compressed blob"]
+    E9 --"remove BOM and zcat"--> F9["xml"]
+    F9 --"root-&gt;Partition-&gt;Payload node, Type=FTL"--> G9["hex"]
+    G9 --"hex to binary"--> H9["cmdline for kernel"]
+
+    %% KERNEL
+    C10 --"base64 decode"--> D10["encrypted blob"]
+    D10 --"AES CBC"--> E10["compressed blob"]
+    E10 --"remove BOM and zcat"--> F10["xml"]
+    F10 --"root-&gt;Partition-&gt;Payload node, Type=FTL"--> G10["hex"]
+    G10 --"hex to binary"--> H10["?"]
+
+    %% ROOT_FILE_SYSTEM
     C11 --"base64 decode"--> D11["encrypted blob"]
     D11 --"AES CBC"--> E11["compressed blob"]
     E11 --"remove BOM and zcat"--> F11["xml"]
     F11 --"root-&gt;Partition-&gt;Payload node, Type=FTL"--> G11["hex"]
     G11 --"hex to binary"--> H11["cpio?"]
 
+    %% PSDT
+    C12 --"base64 decode"--> D12["encrypted blob"]
+    D12 --"AES CBC"--> E12["compressed blob"]
+    E12 --"remove BOM and zcat"--> F12["xml"]
+    F12 --"root-&gt;Partition-&gt;Payload node, Type=FTL"--> G12["hex"]
+    G12 --"hex to binary"--> H12["?"]
+
+    %% PARTITION_TABLE
     C13 --"base64 decode"--> D13["encrypted blob"]
     D13 --"AES CBC"--> E13["compressed blob"]
     E13 --"remove BOM and zcat"--> F13["xml"]
     F13 --"root-&gt;Partition-&gt;Payload node, TYPE=FTL"--> G13["hex"]
     G13 --"hex to binary"--> H13["DOS/MBR boot sector"]
 
+    %% RAMDLOADER
     C14 --"base64 decode"--> D14["encrypted blob"]
     D14 --"AES CBC"--> E14["compressed blob"]
     E14 --"remove BOM and zcat"--> F14["srec &quot;SWINFOFFRDR&quot;, continuous 0xc0400000 through 0xc044a28c, final byte at 0xc044b0fa"]
