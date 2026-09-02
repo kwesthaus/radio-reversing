@@ -1,0 +1,37 @@
+flowchart TD
+    A["update"] --> B["R0210100001_150513"]
+
+    B --> C1["Pakpd128/ (ram/nand size?)"]
+    B --> C2["Pakpd032/ (ram/nand size?)"]
+
+    C1 --> D1["mobileB/"]
+    C2 --> D2["mobileB/"]
+
+    D2 --> E2["R02.10.10.0001.lmx"]
+
+    D1 --> F1A["M28UMC9RA1AN_PMUF1651BA/"]
+    F1A --> G1A2["M28UMC9RA1AN_PMUF1651BA.lmx \n Codeplug, structure, fieldmove file"]
+    F1A --> G1A1["M28UMC9RA1AN_PMUF1651BA.pak"]
+    G1A1 --"filenames for"--> G1A2
+    G1A1 --"filenames for"--> E1
+
+    D1 --> E1["R02.10.10.0001.lmx \n Firmware, rootfs, kernel, kconfig, app utilities, control head, bootloaders, file change list, global marker, data image, PSDT, ramloader"]
+
+%%    E1 --> F1B["(model num 2)"]
+%%    F1B --> G1B1["(model num 2).lmx"]
+%%    F1B --> G1B2["(model num 2).pak"]
+    D1 --> F1C["... other models ..."]
+    F1C ---> G1C1["*.pak"]
+    F1C ---> G1C2["*.lmx"]
+    G1C1 --"filenames for"--> E1
+    G1C1 --"filenames for"--> G1C2
+
+
+%%    E2 --> F2A["(model num 1)"]
+%%    F2A --> G2A1["(model num 1).lmx"]
+%%    F2A --> G2A2["(model num 1).pak"]
+    D2 --> F2B["... other models ..."]
+    F2B ---> G2B1["*.pak"]
+    F2B ---> G2B2["*.lmx"]
+    G2B1 --"filenames for"--> E2
+    G2B1 --"filenames for"--> G2B2
